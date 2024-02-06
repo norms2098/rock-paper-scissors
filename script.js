@@ -4,41 +4,100 @@ function getComputerChoice(){
     return choices[Math.floor(Math.random()*choices.length)]
 }
 
-function playRound(computerChoice,playerChoice){
-    
-}
-
-function playGame(){
-    for(let round = 1; round<=5; round++){
-        console.log("Round "+round)
-        let computerChoice = getComputerChoice();
-        let playerChoice = (prompt("Rock, Paper,or Scissors?")).toLowerCase();
-        console.log("Player chose " + playerChoice + ", Computer chose "+computerChoice+".")
-    
-    switch(playerChoice){
+function playRound(roundCounter){
+    let computerChoice = getComputerChoice();
+    let playerChoice = (prompt("Round"+roundCounter+": Rock, Paper,or Scissors?"));
+    console.log("Round "+roundCounter)
+    console.log("Player chose " + playerChoice + ", Computer chose "+computerChoice+".")
+    let playerWin = "Player wins!"
+    let computerWin = "Computer Wins!"
+    let drawResult = "It's a draw."
+    switch(playerChoice.toLowerCase()){
         case 'rock':
-            if (computerChoice == 'paper'){return computerWin}
-            else if (computerChoice == 'scissors'){return playerWin}
-            else {return drawResult}
+            if (computerChoice == 'paper'){
+                ComputerScorePlusOne();
+                printScores();
+                return computerWin
+            }
+            else if (computerChoice == 'scissors'){
+                PlayerScorePlusOne();
+                printScores();
+                return playerWin
+            }
+            else {
+                printScores();
+                return drawResult
+            }
 
         case 'paper':
-            if (computerChoice == 'scissors'){return computerWin}
-            else if (computerChoice == 'rock'){return playerWin}
-            else {return drawResult}
+            if (computerChoice == 'scissors'){
+                printScores();
+                ComputerScorePlusOne();
+                return computerWin
+            }
+            else if (computerChoice == 'rock'){
+                printScores();
+                PlayerScorePlusOne();
+                return playerWin
+            }
+            else {
+                printScores();
+                return drawResult
+            }
 
         case 'scissors':
-            if (computerChoice == 'rock'){return computerWin}
-            else if (computerChoice == 'paper'){return playerWin}
-            else {return drawResult}
+            if (computerChoice == 'rock'){
+                printScores();
+                ComputerScorePlusOne();
+                return computerWin
+            }
+            else if (computerChoice == 'paper'){
+                printScores();
+                PlayerScorePlusOne();
+                return playerWin}
+            else {
+                printScores();
+                return drawResult
+            }
 
         default:
-            console.log("Error. Wrong Choice");
-            break;
+            console.log("Not in the choices!Try again");
+            playRound(roundCounter)
 
-    }
+
     }
 }
+function PlayerScorePlusOne(){
+    playerScore++
+}
 
-let playerWin = "Player wins!"
-let computerWin = "Computer Wins!"
-let drawResult = "It's a draw."
+function ComputerScorePlusOne(){
+    computerScore++
+}
+
+function getPlayerScore(){
+    return playerScore
+}
+
+function getComputerScore(){
+    return computerScore
+}
+function printScores(){
+    console.log("Player Score: "+getPlayerScore())
+    console.log("Computer Score: "+getComputerScore())
+}
+function playGame(){
+    for(let round = 1; round<=5; round++){
+        console.log(playRound(round))
+    }
+    console.log("Player Final Score:" + getPlayerScore())
+    console.log("Computer Final Score:" + getComputerScore())
+    if(playerScore>computerScore){console.log("Player Wins the Game!")}
+    else if(computerScore>playerScore){console.log("Computer Wins the Game!")}
+    else if (computerScore == playerScore){console.log("Draw")}
+    else{console.log("error.")}
+}
+let computerScore = 0;
+let playerScore=0;
+playGame();
+
