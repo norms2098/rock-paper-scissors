@@ -1,13 +1,13 @@
 const btnStart = document.querySelector('.start-button');
-
+const scoresContainer = document.querySelector('.scores-container')
 const gameContainer = document.querySelector('.game-container');
 const gameWinContainer = document.querySelector('.game-win-container')
-
+const nextRoundContainer = document.querySelector('.next-round-container')
 let playerChoice,computerChoice;
 
-
-//let playerScore = 0;
-//let ComputerScore = 0;
+let roundCounter = 1;
+let playerScore = 0;
+let computerScore = 0;
 
 btnStart.addEventListener('click',()=>{
     const playerChoicesContainer = document.createElement('div')
@@ -24,8 +24,15 @@ btnStart.addEventListener('click',()=>{
     createScissorsButton(playerChoicesContainer);
     createComputerSide(computerChoiceContainer);
     createWinElements(gameWinContainer);
+    createScoreElements(scoresContainer)
+    createNextRoundElement(nextRoundContainer)
+
     const UIDisableStartButton = document.getElementById("start-button")
     UIDisableStartButton.disabled=true
+
+    const UIDisableNextRoundButton = document.getElementById("nextround-button")
+    UIDisableNextRoundButton.disabled=true
+    
 })
 
 function createRockButton(container){
@@ -82,47 +89,54 @@ function createWinElements(containerWin){
     containerWin.appendChild(winTextField)
 }
 
-function setPlayerChoiceRock(){
-    playerChoice="rock"
-    const UIDisablePaperButton = document.getElementById("paper-button")
-    const UIDisableScissorsButton = document.getElementById("scissors-button")
+function createScoreElements(containerScore){
+    const divPlayerScoreContainer = document.createElement('div')
+    const divComputerScoreContainer = document.createElement('div')
 
-    UIDisablePaperButton.disabled=true;
-    UIDisableScissorsButton.disabled=true;
-    playRound();
+    const textPlayerTitle = document.createElement('p')
+    textPlayerTitle.textContent="Player Score:"
+
+    const textComputerTitle = document.createElement('p')
+    textComputerTitle.textContent="Computer Score"
+
+    const textPlayerScore = document.createElement('p')
+    textPlayerScore.id = "player-score"
+    const textComputerScore= document.createElement('p')
+    textComputerScore.id = "computer-score"
+
+    containerScore.appendChild(divPlayerScoreContainer)
+    divPlayerScoreContainer.appendChild(textPlayerTitle)
+    divPlayerScoreContainer.appendChild(textPlayerScore)
+
+    containerScore.appendChild(divComputerScoreContainer)
+    divComputerScoreContainer.appendChild(textComputerTitle)
+    divComputerScoreContainer.appendChild(textComputerScore)
+
+    textComputerScore.textContent="0"
+    textPlayerScore.textContent="0"
 }
 
-function setPlayerChoicePaper(){
-    playerChoice="paper"
-    const UIDisableRockButton = document.getElementById("rock-button")
-    const UIDisableScissorsButton = document.getElementById("scissors-button")
+function createNextRoundElement(containerReset){
+    const nextRoundButton = document.createElement('button')
+    nextRoundButton.id="nextround-button"
+    nextRoundButton.textContent="Next Round";
+    containerReset.appendChild(nextRoundButton)
+    nextRoundButton.addEventListener('click',()=>{
+        const UIDisableRockButton = document.getElementById("rock-button")
+        const UIDisablePaperButton = document.getElementById("paper-button")
+        const UIDisableScissorsButton = document.getElementById("scissors-button")
+        const UIsetComputerChoice = document.getElementById("computer-choice-text-field")
+        const UIDisableNextRoundButton = document.getElementById("nextround-button")
+        const UIDisableWinnerTextField = document.getElementById("winner-text-field")
 
-    UIDisableRockButton.disabled=true;
-    UIDisableScissorsButton.disabled=true;
-    playRound();
-}
+        UIDisableNextRoundButton.disabled=true
+        UIDisableRockButton.disabled=false;
+        UIDisablePaperButton.disabled=false;
+        UIDisableScissorsButton.disabled=false;
+        UIsetComputerChoice.textContent="";
+        UIDisableWinnerTextField.textContent=""
+    })
 
-function setPlayerChoiceScissors(){
-    playerChoice="scissors"
-    const UIDisablePaperButton = document.getElementById("paper-button")
-    const UIDisableRockButton = document.getElementById("rock-button")
-
-    UIDisablePaperButton.disabled=true;
-    UIDisableRockButton.disabled=true;
-    playRound();
-}
-
-function setPlayerWinnerDeclaration(){
-    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
-    UISetWinnerDeclaration.textContent="Player Wins!"
-}
-function setComputerWinnerDeclaration(){
-    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
-    UISetWinnerDeclaration.textContent="Computer Wins!"
-}
-function setDrawDeclaration(){
-    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
-    UISetWinnerDeclaration.textContent="It's a draw!"
 }
 
 function setComputerChoice(){
@@ -142,104 +156,152 @@ function setComputerChoice(){
     
 }
 
+function setPlayerChoiceRock(){
+    playerChoice="rock"
+    const UIDisablePaperButton = document.getElementById("paper-button")
+    const UIDisableScissorsButton = document.getElementById("scissors-button")
+
+    UIDisablePaperButton.disabled=true;
+    UIDisableScissorsButton.disabled=true;
+    playRound()
+
+}
+
+function setPlayerChoicePaper(){
+    playerChoice="paper"
+    const UIDisableRockButton = document.getElementById("rock-button")
+    const UIDisableScissorsButton = document.getElementById("scissors-button")
+
+    UIDisableRockButton.disabled=true;
+    UIDisableScissorsButton.disabled=true;
+    playRound()
+
+}
+
+function setPlayerChoiceScissors(){
+    playerChoice="scissors"
+    const UIDisablePaperButton = document.getElementById("paper-button")
+    const UIDisableRockButton = document.getElementById("rock-button")
+
+    UIDisablePaperButton.disabled=true;
+    UIDisableRockButton.disabled=true;
+    playRound()
+
+}
+
+function setPlayerWinnerDeclaration(){
+    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
+    UISetWinnerDeclaration.textContent="Player Wins!"
+}
+
+function setComputerWinnerDeclaration(){
+    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
+    UISetWinnerDeclaration.textContent="Computer Wins!"
+}
+
+function setDrawDeclaration(){
+    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
+    UISetWinnerDeclaration.textContent="It's a draw!"
+}
+
+function declareWinnerofGame(){
+    const UIPlayerScore = document.getElementById("player-score")
+    const UIComputerScore = document.getElementById("computer-score")
+    if(playerScore>computerScore){
+        UIPlayerScore.setAttribute("style","color:red")
+    }
+    else if(playerScore<computerScore){
+        UIComputerScore.setAttribute("style","color:red")
+    }
+    else{
+        UIPlayerScore.setAttribute("style","color:red")
+        UIComputerScore.setAttribute("style","color:red")
+    }
+}
+
 function playRound(){
-    setComputerChoice();
-
-    switch(playerChoice){
-        case 'rock':
-            if (computerChoice == 'paper'){
-                //ComputerScorePlusOne();
-                //printScores();
-                setComputerWinnerDeclaration();
-                break;
-            }
-            else if (computerChoice == 'scissors'){
-                //PlayerScorePlusOne();
-                //printScores();
-                setPlayerWinnerDeclaration();
-                break;
-            }
-            else {
-                //printScores();
-                setDrawDeclaration();
-                break;
-            }
-
-        case 'paper':
-            if (computerChoice == 'scissors'){
-                //printScores();
-                //ComputerScorePlusOne();
-                setComputerWinnerDeclaration();
-                break;
-            }
-            else if (computerChoice == 'rock'){
-                //printScores();
-                //PlayerScorePlusOne();
-                setPlayerWinnerDeclaration();
-                break;
-            }
-            else {
-                //printScores();
-                setDrawDeclaration();
-                break;
-            }
-
-        case 'scissors':
-            if (computerChoice == 'rock'){
-                //printScores();
-                //ComputerScorePlusOne();
-                setComputerWinnerDeclaration();
-                break;
-            }
-            else if (computerChoice == 'paper'){
-                //printScores();
-                //PlayerScorePlusOne();
-                setPlayerWinnerDeclaration();
-                break;
-            }
-            else {
-                //printScores();
-                setDrawDeclaration();
-                break;
-            }
-
-        default:
-            console.log("Not in the choices!Try again");
-            //playRound(roundCounter)
-
-
+    if(roundCounter < 6){
+        setComputerChoice()
+        switch(playerChoice){
+            case 'rock':
+                if (computerChoice == 'paper'){
+                    setComputerScorePlusOne();
+                    setComputerWinnerDeclaration();
+                    break;
+                }
+                else if (computerChoice == 'scissors'){
+                    setPlayerScorePlusOne();
+    
+                    setPlayerWinnerDeclaration();
+                    break;
+                }
+                else {
+    
+                    setDrawDeclaration();
+                    break;
+                }
+    
+            case 'paper':
+                if (computerChoice == 'scissors'){
+    
+                    setComputerScorePlusOne();
+                    setComputerWinnerDeclaration();
+                    break;
+                }
+                else if (computerChoice == 'rock'){
+    
+                    setPlayerScorePlusOne();
+                    setPlayerWinnerDeclaration();
+                    break;
+                }
+                else {
+    
+                    setDrawDeclaration();
+                    break;
+                }
+    
+            case 'scissors':
+                if (computerChoice == 'rock'){
+                    setComputerScorePlusOne();
+                    setComputerWinnerDeclaration();
+                    break;
+                }
+                else if (computerChoice == 'paper'){
+                    setPlayerScorePlusOne();
+                    setPlayerWinnerDeclaration();
+                    break;
+                }
+                else {
+                    setDrawDeclaration();
+                    break;
+                }
+    
+            default:
+                console.log("ERROR");
+    
+            
+        }
+        roundCounter++
+        const UIDisableNextRoundButton = document.getElementById("nextround-button")
+        UIDisableNextRoundButton.disabled=false
+    }
+    else{
+        declareWinnerofGame()
     }
 }
-function PlayerScorePlusOne(){
+
+function setPlayerScorePlusOne(){
     playerScore++
+    const UISetPlayerScore = document.getElementById("player-score")
+    UISetPlayerScore.textContent=playerScore 
 }
 
-function ComputerScorePlusOne(){
+function setComputerScorePlusOne(){
     computerScore++
+    const UISetComputerScore = document.getElementById("computer-score")
+    UISetComputerScore.textContent=computerScore
 }
 
-function getPlayerScore(){
-    return playerScore
-}
 
-function getComputerScore(){
-    return computerScore
-}
-function printScores(){
-    console.log("Player Score: "+getPlayerScore())
-    console.log("Computer Score: "+getComputerScore())
-}
-/*function playGame(){
-    for(let round = 1; round<=5; round++){
-        console.log(playRound(round))
-    }
-    console.log("Player Final Score:" + getPlayerScore())
-    console.log("Computer Final Score:" + getComputerScore())
-    if(playerScore>computerScore){console.log("Player Wins the Game!")}
-    else if(computerScore>playerScore){console.log("Computer Wins the Game!")}
-    else if (computerScore == playerScore){console.log("Draw")}
-    else{console.log("error.")}
-}*/
 
-/*playGame();*/
 

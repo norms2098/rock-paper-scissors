@@ -22,12 +22,15 @@
     gap:10px
 }
 .computer-choice-container p:nth-child(1),
-.game-win-container p:nth-child(1){
+.game-win-container p:nth-child(1),
+.player-score-container,
+.computer-score-container{
     margin-bottom: 0;
 }
 .player-choices-container,
 .computer-choice-container,
-.game-win-container{
+.game-win-container,
+.next-round-container{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,3 +42,17 @@
     width:100px;
     height: auto;
 }
+.scores-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+    text-align: center;
+}
+
+.player-score-container,
+.computer-score-container{
+    border:black;
+    border:4px
+}
+
