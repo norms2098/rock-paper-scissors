@@ -10,3 +10,32 @@
 .main-title p{
     margin-top: 0;
 }
+
+.game-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:20px;
+    margin:10vh
+}
+.player-choices-container{
+    gap:10px
+}
+.computer-choice-container p:nth-child(1),
+.game-win-container p:nth-child(1){
+    margin-bottom: 0;
+}
+.player-choices-container,
+.computer-choice-container,
+.game-win-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.game-container button{
+    padding:5px;
+    border-radius: 5px;
+    width:100px;
+    height: auto;
+}
