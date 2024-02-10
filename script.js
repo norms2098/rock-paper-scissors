@@ -122,8 +122,7 @@ function setComputerWinnerDeclaration(){
 }
 function setDrawDeclaration(){
     const UISetWinnerDeclaration = document.getElementById("winner-text-field")
-    UISetWinnerDeclaration.textContent="Computer Wins!"
-    winnerDeclaration="It's a draw!"
+    UISetWinnerDeclaration.textContent="It's a draw!"
 }
 
 function setComputerChoice(){
