@@ -146,12 +146,6 @@ function setComputerChoice(){
 function playRound(){
     setComputerChoice();
 
-    //let playerChoice = (prompt("Round"+roundCounter+": Rock, Paper,or Scissors?"));
-    //console.log("Round "+roundCounter)
-    //console.log("Player chose " + playerChoice + ", Computer chose "+computerChoice+".")
-    /*let playerWin = "Player wins!"
-    let computerWin = "Computer Wins!"
-    let drawResult = "It's a draw."*/
     switch(playerChoice){
         case 'rock':
             if (computerChoice == 'paper'){
