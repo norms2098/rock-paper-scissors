@@ -1,6 +1,13 @@
 const btnStart = document.querySelector('.start-button');
+
 const gameContainer = document.querySelector('.game-container');
 const gameWinContainer = document.querySelector('.game-win-container')
+
+let playerChoice,computerChoice;
+
+
+//let playerScore = 0;
+//let ComputerScore = 0;
 
 btnStart.addEventListener('click',()=>{
     const playerChoicesContainer = document.createElement('div')
@@ -16,35 +23,51 @@ btnStart.addEventListener('click',()=>{
     createPaperButton(playerChoicesContainer);
     createScissorsButton(playerChoicesContainer);
     createComputerSide(computerChoiceContainer);
-    createWinElements(gameWinContainer)
+    createWinElements(gameWinContainer);
+    const UIDisableStartButton = document.getElementById("start-button")
+    UIDisableStartButton.disabled=true
 })
 
 function createRockButton(container){
     const rockButton = document.createElement('button');
     rockButton.classList.add('rock-button');
+    rockButton.id="rock-button"
     rockButton.textContent="ROCK";
-    container.appendChild(rockButton)
+    container.appendChild(rockButton);
+    rockButton.addEventListener('click',()=>{
+        setPlayerChoiceRock();
+        
+    })
 }
 
 function createPaperButton(container){
     const paperButton = document.createElement('button');
     paperButton.classList.add('paper-button');
+    paperButton.id="paper-button"
     paperButton.textContent="PAPER";
     container.appendChild(paperButton)
+    paperButton.addEventListener('click',()=>{
+        setPlayerChoicePaper();
+    })
 }
 
 function createScissorsButton(container){
     const scissorsButton = document.createElement('button');
     scissorsButton.classList.add('scissors-button');
+    scissorsButton.id="scissors-button"
     scissorsButton.textContent="SCISSORS";
     container.appendChild(scissorsButton)
+    scissorsButton.addEventListener('click',()=>{
+        setPlayerChoiceScissors();
+        
+    })
 }
 
 function createComputerSide(containerComputer){
     const pcTitle = document.createElement('p')
     const pcChoiceTextField = document.createElement('p')
     pcTitle.textContent="Computer Chooses: "
-
+    pcChoiceTextField.id="computer-choice-text-field"
     containerComputer.appendChild(pcTitle)
     containerComputer.appendChild(pcChoiceTextField)
     
@@ -52,71 +75,139 @@ function createComputerSide(containerComputer){
 
 function createWinElements(containerWin){
     const winTitle = document.createElement('p')
-    winTitle.textContent="Winner is: "
+    winTitle.textContent="Winner: "
     const winTextField = document.createElement('p')
-
+    winTextField.id="winner-text-field"
     containerWin.appendChild(winTitle)
     containerWin.appendChild(winTextField)
 }
-function getComputerChoice(){
+
+function setPlayerChoiceRock(){
+    playerChoice="rock"
+    const UIDisablePaperButton = document.getElementById("paper-button")
+    const UIDisableScissorsButton = document.getElementById("scissors-button")
+
+    UIDisablePaperButton.disabled=true;
+    UIDisableScissorsButton.disabled=true;
+    playRound();
+}
+
+function setPlayerChoicePaper(){
+    playerChoice="paper"
+    const UIDisableRockButton = document.getElementById("rock-button")
+    const UIDisableScissorsButton = document.getElementById("scissors-button")
+
+    UIDisableRockButton.disabled=true;
+    UIDisableScissorsButton.disabled=true;
+    playRound();
+}
+
+function setPlayerChoiceScissors(){
+    playerChoice="scissors"
+    const UIDisablePaperButton = document.getElementById("paper-button")
+    const UIDisableRockButton = document.getElementById("rock-button")
+
+    UIDisablePaperButton.disabled=true;
+    UIDisableRockButton.disabled=true;
+    playRound();
+}
+
+function setPlayerWinnerDeclaration(){
+    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
+    UISetWinnerDeclaration.textContent="Player Wins!"
+}
+function setComputerWinnerDeclaration(){
+    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
+    UISetWinnerDeclaration.textContent="Computer Wins!"
+}
+function setDrawDeclaration(){
+    const UISetWinnerDeclaration = document.getElementById("winner-text-field")
+    UISetWinnerDeclaration.textContent="Computer Wins!"
+    winnerDeclaration="It's a draw!"
+}
+
+function setComputerChoice(){
     let choices = ['rock','paper','scissors']
-    return choices[Math.floor(Math.random()*choices.length)]
+    computerChoice=choices[Math.floor(Math.random()*choices.length)]
+    const UIsetComputerChoice = document.getElementById("computer-choice-text-field")
+    if (computerChoice == 'rock'){
+        UIsetComputerChoice.textContent='Rock';
+    }
+    else if(computerChoice == 'paper'){
+        UIsetComputerChoice.textContent='Paper';
+    }
+    else{
+        UIsetComputerChoice.textContent='Scissors';
+    }
+    
+    
 }
 
 function playRound(){
-    let computerChoice = getComputerChoice();
-    let playerChoice = (prompt("Round"+roundCounter+": Rock, Paper,or Scissors?"));
+    setComputerChoice();
+
+    //let playerChoice = (prompt("Round"+roundCounter+": Rock, Paper,or Scissors?"));
     //console.log("Round "+roundCounter)
-    console.log("Player chose " + playerChoice + ", Computer chose "+computerChoice+".")
-    let playerWin = "Player wins!"
+    //console.log("Player chose " + playerChoice + ", Computer chose "+computerChoice+".")
+    /*let playerWin = "Player wins!"
     let computerWin = "Computer Wins!"
-    let drawResult = "It's a draw."
-    switch(playerChoice.toLowerCase()){
+    let drawResult = "It's a draw."*/
+    switch(playerChoice){
         case 'rock':
             if (computerChoice == 'paper'){
-                ComputerScorePlusOne();
-                printScores();
-                return computerWin
+                //ComputerScorePlusOne();
+                //printScores();
+                setComputerWinnerDeclaration();
+                break;
             }
             else if (computerChoice == 'scissors'){
-                PlayerScorePlusOne();
-                printScores();
-                return playerWin
+                //PlayerScorePlusOne();
+                //printScores();
+                setPlayerWinnerDeclaration();
+                break;
             }
             else {
-                printScores();
-                return drawResult
+                //printScores();
+                setDrawDeclaration();
+                break;
             }
 
         case 'paper':
             if (computerChoice == 'scissors'){
-                printScores();
-                ComputerScorePlusOne();
-                return computerWin
+                //printScores();
+                //ComputerScorePlusOne();
+                setComputerWinnerDeclaration();
+                break;
             }
             else if (computerChoice == 'rock'){
-                printScores();
-                PlayerScorePlusOne();
-                return playerWin
+                //printScores();
+                //PlayerScorePlusOne();
+                setPlayerWinnerDeclaration();
+                break;
             }
             else {
-                printScores();
-                return drawResult
+                //printScores();
+                setDrawDeclaration();
+                break;
             }
 
         case 'scissors':
             if (computerChoice == 'rock'){
-                printScores();
-                ComputerScorePlusOne();
-                return computerWin
+                //printScores();
+                //ComputerScorePlusOne();
+                setComputerWinnerDeclaration();
+                break;
             }
             else if (computerChoice == 'paper'){
-                printScores();
-                PlayerScorePlusOne();
-                return playerWin}
+                //printScores();
+                //PlayerScorePlusOne();
+                setPlayerWinnerDeclaration();
+                break;
+            }
             else {
-                printScores();
-                return drawResult
+                //printScores();
+                setDrawDeclaration();
+                break;
             }
 
         default:
@@ -156,7 +247,6 @@ function printScores(){
     else if (computerScore == playerScore){console.log("Draw")}
     else{console.log("error.")}
 }*/
-let computerScore = 0;
-let playerScore=0;
+
 /*playGame();*/
 
